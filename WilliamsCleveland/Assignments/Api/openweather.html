@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Weather Forecast</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<style>
+			input[type=text] {
+		    width: 170px;
+		    box-sizing: border-box;
+		    border: 2px solid #ccc;
+		    border-radius: 4px;
+		    font-size: 16px;
+		    background-color: white;
+		    background-image: url('searchicon.png');
+		    background-position: 10px 10px;
+		    background-repeat: no-repeat;
+		    padding: 12px 20px 12px 40px;
+		    -webkit-transition: width 0.4s ease-in-out;
+		    transition: width 0.4s ease-in-out;
+		}
+
+		input[type=text]:focus {
+		    width: 25%;
+		}
+	</style>
+</head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('form').submit(function() {
+				url = 'http://api.openweathermap.org/data/2.5/weather?q=' + $('#location').val() + '&APPID=e2743a95eb0abab68985f90a9be3c24d';
+				$.get(url, function(res) {
+					$('#city').text(function(){
+						return res.name;
+					})
+					$('#temp').text(function(){
+						farenheit = 1.8*(res.main.temp-273)+32;
+						return 'Temperature: ' + farenheit.toFixed(2);
+					})
+				}, 'json');
+				return false;
+			});
+		});
+	</script>
+	<form>
+		<input type="text" placeholder="Enter location" id="location">
+		<input type="submit" value="Search Weather" >
+	</form>
+	<h1 id="city"></h1>
+	<h3 id="temp"></h3>
+</body>
+</html>
